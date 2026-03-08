@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
 import { LayoutList, Shield } from "lucide-react"
 import Image from "next/image"
+import UploadPdfDialog from "./UploadPdfDialog"
 
 const Sidebar = () => {
   return (
@@ -9,7 +10,9 @@ const Sidebar = () => {
       <Image src={'/logo.svg'} alt='Logo' width={140} height={100} />
 
       <div className="mt-10">
-        <Button variant='default' className="w-full mb-4">+ Upload PDF</Button>
+        <UploadPdfDialog>
+          <Button variant='default' className="w-full mb-4">+ Upload PDF</Button>
+        </UploadPdfDialog>
 
         <div className="p-2 mt-1 flex items-center gap-2 hover:bg-slate-200 rounded-md cursor-pointer">
             <LayoutList/>

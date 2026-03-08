@@ -5,7 +5,6 @@ export default defineSchema({
     users:defineTable({
         userName: v.string(),
         email: v.string(),
-        password: v.string(),
         imageUrl: v.string(),
     })
 })

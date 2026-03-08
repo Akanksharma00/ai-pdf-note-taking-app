@@ -3,6 +3,7 @@ import { Outfit } from "next/font/google";
 import {} from 'next/font/local';
 import "./globals.css";
 import { ConvexClientProvider } from "./ConvexClientProvider";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const outfitFont = Outfit({
   variable: "--font-outfit",
@@ -21,6 +22,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    <ClerkProvider>
     <html lang="en">
       <body
         className={`${outfitFont.className} bg-[#f8f8f8] antialiased/`}
@@ -30,5 +32,6 @@ export default function RootLayout({
         </ConvexClientProvider>
       </body>
     </html>
+    </ClerkProvider>
   );
 }

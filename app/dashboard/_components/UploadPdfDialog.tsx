@@ -14,7 +14,8 @@ import {
 import { Input } from "@/components/ui/input"
 import { api } from "@/convex/_generated/api"
 import { useUser } from "@clerk/nextjs"
-import { useMutation } from "convex/react"
+import axios from "axios"
+import { useAction, useMutation } from "convex/react"
 import { Loader2Icon } from "lucide-react"
 import { ChangeEvent, ReactNode, useState } from "react"
 import { v4 as uuid4 } from "uuid"
@@ -23,12 +24,15 @@ const UploadPdfDialog = ({children}: {children: ReactNode}) => {
     const [file, setFile] = useState<File | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [fileName, setFileName] = useState<string>('');
+    const [openDialog, setOpenDialog] = useState<boolean>(false);
 
     const {user} = useUser();
 
     const generateUploadUrl = useMutation(api.fileStorage.generateUploadUrl);
     const addFileEntryToDb = useMutation(api.fileStorage.addFileEntryToDb);
     const getFileUrl = useMutation(api.fileStorage.getFileUrl);
+
+    const embeddDocument = useAction(api.myAction.ingest)
 
     const onFileSelect = (e: ChangeEvent<HTMLInputElement, HTMLInputElement>) => {
         setFile(e.target.files?.[0] || null);
@@ -62,14 +66,22 @@ const UploadPdfDialog = ({children}: {children: ReactNode}) => {
 
         });
 
-        console.log("Upload URL ::: ", dbResult);
+        // Step 4: API call to fetch PDF process data
+        const apiResponse = await axios.get('/api/pdf-loader?pdfURL=' + fileUrl);
+        await embeddDocument({
+            splitText: apiResponse.data.result,
+            fileId: fileId,
+        });
 
         setIsLoading(false);
+        setOpenDialog(false);
     }
 
   return (
-    <Dialog>
-    <DialogTrigger asChild>{children}</DialogTrigger>
+    <Dialog open={openDialog}>
+    <DialogTrigger asChild>
+        <Button onClick={() => setOpenDialog(true)} className="w-full">+ Upload PDF File</Button>
+    </DialogTrigger>
     <DialogContent>
         <DialogHeader>
         <DialogTitle>Upload PDF File</DialogTitle>
@@ -102,6 +114,7 @@ const UploadPdfDialog = ({children}: {children: ReactNode}) => {
             <Button 
                 variant="default"
                 onClick={handleUpload}
+                disabled={!file || !fileName || isLoading}
             >
                 {isLoading ? <Loader2Icon className="animate-spin" /> : 'Upload'}
             </Button>

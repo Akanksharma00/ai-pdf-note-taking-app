@@ -10,9 +10,12 @@
   },
   "dependencies": {
     "@clerk/nextjs": "^7.0.1",
+    "@google/generative-ai": "^0.24.1",
     "@langchain/community": "^1.1.23",
     "@langchain/core": "^1.1.32",
+    "@langchain/google-genai": "^2.1.25",
     "@langchain/textsplitters": "^1.0.1",
+    "axios": "^1.13.6",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "convex": "^1.32.0",

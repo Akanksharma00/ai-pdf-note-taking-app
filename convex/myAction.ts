@@ -23,7 +23,6 @@ export const ingest = action({
         args.fileId,
         new GoogleGenerativeAIEmbeddings({
             apiKey: process.env.GOOGLE_API_KEY,
-            // apiKey: 'AIzaSyDwKkB8EXL-ENL3igQK5vJ3vBU1Y-Uv1Mc',
             model: "gemini-embedding-001", // 768 dimensions
             taskType: TaskType.RETRIEVAL_DOCUMENT,
             title: "Document title",

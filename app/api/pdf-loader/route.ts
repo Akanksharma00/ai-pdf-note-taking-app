@@ -2,6 +2,8 @@ import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { NextResponse } from "next/server";
 
+// const pdfURL = "https://jovial-echidna-485.convex.cloud/api/storage/3a596155-8d1e-4ade-8eb1-e48272e1d0eb";
+
 export async function GET(request: Request) {
     try {
         const reqUrl = request.url;
